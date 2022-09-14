@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   preview: {
-    margin: 20,
+    marginBottom: 20,
     width: "100%",
     height: 200,
     justifyContent: "center",

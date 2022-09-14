@@ -11,4 +11,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: { borderBottomColor: colors.primary, borderBottomWidth: 1, marginBottom: 20, padding: 5 },
+  buttom: {
+    marginTop: 10,
+  },
 });

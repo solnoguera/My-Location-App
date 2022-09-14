@@ -1,15 +1,31 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { styles } from "./styles";
 import { useSelector } from "react-redux";
+import { PlaceItem } from "../../components";
 
 const PlaceList = ({ navigation }) => {
   const places = useSelector((store) => store.place.places);
   console.warn(places);
-  return (
-    <View style={styles.container}>
-      <Text>PlaceList View</Text>
+  const renderItem = ({ item }) => (
+    <PlaceItem
+      {...item}
+      onSelect={() => navigation.navigate("PlaceDetail", { placeId: item.id })}
+    />
+  );
+  const ListEmptyContainer = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No hay lugares creados.</Text>
     </View>
+  );
+  return (
+    <FlatList
+      style={styles.container}
+      data={places}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={renderItem}
+      ListEmptyComponent={ListEmptyContainer}
+    />
   );
 };
 
