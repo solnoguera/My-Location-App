@@ -28,4 +28,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: colors.background,
   },
+  address: {
+    fontSize: 14,
+    color: colors.text,
+  },
 });
