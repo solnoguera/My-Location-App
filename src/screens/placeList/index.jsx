@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
 import { styles } from "./styles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { loadPlaces } from "../../store/place.slice";
 import { PlaceItem } from "../../components";
 
 const PlaceList = ({ navigation }) => {
   const places = useSelector((store) => store.place.places);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadPlaces());
+  }, []);
   const renderItem = ({ item }) => (
     <PlaceItem
       {...item}
@@ -21,7 +26,7 @@ const PlaceList = ({ navigation }) => {
     <FlatList
       style={styles.container}
       data={places}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item?.id?.toString()}
       renderItem={renderItem}
       ListEmptyComponent={ListEmptyContainer}
     />

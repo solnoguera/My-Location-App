@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Place from "../models/places";
 import * as FileSystem from "expo-file-system";
 import { URL_GEOCODING } from "../utils/maps";
+import { insertPlace, getPlaces } from "../db";
 //El slice junta las acciones y los reductores en un solo ambiente.
 const initialState = {
   places: [],
@@ -13,13 +14,16 @@ const placesSlice = createSlice({
   reducers: {
     addPlace: (state, action) => {
       const newPlace = new Place(
-        Date.now(),
+        action.payload.id.toString(),
         action.payload.title,
         action.payload.image,
         action.payload.address,
         action.payload.coords
       );
       state.places.push(newPlace);
+    },
+    setPlaces: (state, action) => {
+      state.places = action.payload;
     },
   },
 });
@@ -37,11 +41,27 @@ export const savePlace = (title, image, coords) => {
       const data = await response.json();
       if (!data.results) throw new Error("No se ha podido encontrar la dirección.");
       const address = data.results[0].formatted_address;
-      dispatch(addPlace({ title, image, address, coords }));
+      const result = await insertPlace(title, image, address, coords); // Guardamos en SQLite
+      dispatch(addPlace({ id: result.insertId, title, image, address, coords }));
     } catch (error) {
       console.log(error);
     }
   };
 };
-export const { addPlace } = placesSlice.actions;
+
+export const loadPlaces = () => {
+  return async (dispatch) => {
+    try {
+      const result = await getPlaces();
+      const locations = result.rows._array.map((location) => ({
+        ...location,
+        coords: JSON.parse(location.coords),
+      }));
+      dispatch(setPlaces(locations));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export const { addPlace, setPlaces } = placesSlice.actions;
 export default placesSlice.reducer;
