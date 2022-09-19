@@ -27,7 +27,7 @@ const NewPlace = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>New Place View</Text>
+        <Text style={styles.title}>Agregar Nueva Dirección</Text>
         <TextInput
           style={styles.input}
           placeholder="Nueva Ubicación"

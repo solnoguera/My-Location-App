@@ -6,7 +6,6 @@ import { PlaceItem } from "../../components";
 
 const PlaceList = ({ navigation }) => {
   const places = useSelector((store) => store.place.places);
-  console.warn(places);
   const renderItem = ({ item }) => (
     <PlaceItem
       {...item}

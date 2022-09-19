@@ -35,7 +35,6 @@ const LocationSelector = ({ onLocation }) => {
     if (!hasPermission) return;
     const location = await Location.getCurrentPositionAsync();
     const { latitude, longitude } = location.coords;
-    console.log({ latitude, longitude });
     setPickedLocation({ lat: latitude, lng: longitude });
     onLocation({ lat: latitude, lng: longitude });
   };
